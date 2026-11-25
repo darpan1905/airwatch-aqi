@@ -1,0 +1,73 @@
+{
+  "appName": "AirWatch",
+  "tabs": {
+    "dashboard": "Dashboard",
+    "trends": "Trends",
+    "map": "Map",
+    "alerts": "Alerts"
+  },
+  "dashboard": {
+    "title": "Air Quality",
+    "lastUpdated": "Last updated",
+    "aqi": "AQI",
+    "prominentPollutant": "Prominent Pollutant",
+    "pollutants": "Pollutants",
+    "guidance": "What should you do?",
+    "loading": "Fetching air quality...",
+    "error": "Could not load air quality data",
+    "retry": "Retry",
+    "good": "Good",
+    "satisfactory": "Satisfactory",
+    "moderate": "Moderate",
+    "poor": "Poor",
+    "veryPoor": "Very Poor",
+    "severe": "Severe",
+    "myLocation": "My Location",
+    "locationPermission": "Location permission needed to show local air quality"
+  },
+  "trends": {
+    "title": "Pollution Trends",
+    "h24": "24 Hours",
+    "d7": "7 Days",
+    "d30": "30 Days",
+    "increasing": "Increasing",
+    "decreasing": "Improving",
+    "stable": "Stable",
+    "avg": "Avg AQI",
+    "min": "Min",
+    "max": "Max",
+    "change": "Change",
+    "spikes": "Spike Events",
+    "noSpikes": "No significant spikes detected",
+    "loading": "Loading trend data..."
+  },
+  "map": {
+    "title": "Nearby Stations",
+    "stations": "monitoring stations nearby",
+    "lastReading": "Last reading",
+    "parameters": "Monitors",
+    "noStations": "No monitoring stations found in this area",
+    "loading": "Loading stations..."
+  },
+  "alerts": {
+    "title": "Air Quality Alerts",
+    "enable": "Enable Alerts",
+    "threshold": "Alert me when AQI exceeds",
+    "location": "Alert Location",
+    "useMyLocation": "Use My Location",
+    "language": "Language",
+    "save": "Save Preferences",
+    "saved": "Preferences saved",
+    "about": "About",
+    "aboutText": "AQI calculated using Indian CPCB standard (IS 18020:2016). Data from Open-Meteo and OpenAQ.",
+    "en": "English",
+    "hi": "हिंदी",
+    "mr": "मराठी"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "na": "N/A"
+  }
+}

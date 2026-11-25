@@ -1,0 +1,59 @@
+{
+  "expo": {
+    "name": "AirWatch",
+    "slug": "airwatch-aqi",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "airwatch",
+    "plugins": [
+      "expo-router",
+      "expo-location",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#00897B"
+        }
+      ],
+      "expo-secure-store",
+      "expo-status-bar",
+      "expo-font"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.airwatch.aqi",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "AirWatch uses your location to show local air quality data.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "AirWatch uses your location to alert you about local air quality."
+      }
+    },
+    "android": {
+      "package": "com.airwatch.aqi",
+      "adaptiveIcon": {
+        "backgroundColor": "#00897B",
+        "foregroundImage": "./assets/icon.png"
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE"
+      ],
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "your-eas-project-id"
+      }
+    }
+  }
+}
