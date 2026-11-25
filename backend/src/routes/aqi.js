@@ -32,9 +32,9 @@ async function geocodeCity(query) {
 async function computeAQI(lat, lon) {
   const { current } = await fetchAirQuality(lat, lon);
 
-  // O3 requires an 8-hour average under Indian CPCB (IS 18020:2016).
-  // Open-Meteo gives instantaneous hourly values — using them inflates the sub-index.
-  // O3 is included in the pollutant display but excluded from the AQI calculation.
+  // O3 needs an 8h average under CPCB rules, not an instantaneous hourly reading.
+  // Open-Meteo only gives hourly values so using it directly inflates the sub-index.
+  // Showing it in the breakdown for reference but keeping it out of the final calc.
   const readings = {
     pm25: current.pm25,
     pm10: current.pm10,
