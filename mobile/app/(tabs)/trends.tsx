@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
   },
   chartTitle: { fontSize: 13, fontWeight: '700', color: '#757575', marginBottom: 10 },
   chartArea: {
-    width: '100%', // fills card minus padding — no hardcoded px width
+    width: '100%',
     overflow: 'hidden',
   },
   chartEmpty: { height: 60, alignItems: 'center', justifyContent: 'center' },
