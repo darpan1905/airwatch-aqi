@@ -1,89 +1,42 @@
-# AirWatch — Air Quality Dashboard
+# AirWatch
 
-> A real-time air quality monitoring app for Indian citizens. Displays AQI, pollution trends and precautionary guidance in English, Hindi and Marathi.
+I built this because I kept checking my weather app for AQI and getting a number with no context — 147, okay, but should I go for a run or not? Most apps just show you a number. This one tells you what it means, what's causing it, and what to do about it. It also uses the Indian CPCB standard instead of US EPA, which matters because the two scales are very different and most apps default to US EPA even for Indian cities.
 
-## Features
+## What it does
 
-- **Real-time AQI** — Calculated using Indian CPCB standard (IS 18020:2016)
-- **Pollutant breakdown** — PM2.5, PM10, NO₂, O₃, CO, SO₂ with sub-indices
-- **Trend analysis** — 24h / 7d / 30d historical trends with spike detection
-- **Precautionary guidance** — Plain-language safety recommendations
-- **Monitoring station map** — Nearby OpenAQ stations with freshness indicators
-- **Push alerts** — Notify when AQI crosses your chosen threshold
-- **Multilingual** — English, Hindi (हिंदी), Marathi (मराठी)
+Real-time AQI for your location using the Indian CPCB standard (IS 18020:2016). Breaks down which pollutant is driving the number, shows how it's trended over the last 24 hours, 7 days and 30 days, and gives you plain-language guidance in English, Hindi or Marathi. There's also a map showing nearby monitoring stations alongside Open-Meteo model data for the surrounding area, and a city search so you can check anywhere.
 
-## AQI Calculation
+## The AQI calculation
 
-Indian AQI uses pollutant-specific breakpoints and the interpolation formula:
+Indian AQI uses pollutant-specific breakpoints with this interpolation formula:
 
 ```
-Iₚ = ((I_HI − I_LO) / (B_HI − B_LO)) × (Cₚ − B_LO) + I_LO
+Ip = ((IHI - ILO) / (BHI - BLO)) * (Cp - BLO) + ILO
 ```
 
-Where `Iₚ` is the sub-index for pollutant `p`, `Cₚ` is the measured concentration,
-and `B_HI/B_LO` are the CPCB concentration breakpoints.
+Final AQI is the maximum sub-index across all pollutants — the worst pollutant drives the number. One thing worth noting: ozone requires an 8-hour average under CPCB rules. Open-Meteo gives hourly instantaneous values, so O3 is shown for reference but excluded from the AQI calculation to avoid inflating the number.
 
-**Final AQI = maximum of all pollutant sub-indices** (prominent pollutant determines AQI).
+## Stack
 
-## Tech Stack
+React Native + Expo on the frontend. Node.js + Fastify on the backend with Redis caching. Data from Open-Meteo (free, no key) and WAQI for monitoring station readings.
 
-| Layer | Technology |
-|---|---|
-| Mobile | React Native + Expo SDK 51 |
-| Routing | Expo Router v3 |
-| Server state | TanStack Query v5 |
-| UI state | Zustand v4 |
-| Backend | Node.js 20 + Fastify v4 |
-| Validation | Zod |
-| Cache | Redis (ioredis) |
-| Air quality data | Open-Meteo (free) + OpenAQ |
-| i18n | i18next |
-
-## Setup
-
-### 1. Backend
+## Running it
 
 ```bash
+# Backend
 cd backend
 cp .env.example .env
-# Add your OpenAQ API key to .env (free at https://explore.openaq.org/register)
-npm install
-npm run dev
-```
+# add your WAQI token to .env
+node src/server.js
 
-Backend runs on `http://localhost:3000`
-
-### 2. Mobile
-
-```bash
+# Mobile
 cd mobile
-npm install
 npx expo start
 ```
 
-Scan the QR code with **Expo Go** on your phone.
+The mobile app talks to the backend over your local network. Update `API_BASE` in `mobile/constants/aqi.ts` with your machine's IP before running.
 
-### Environment Variables
+## Data sources
 
-```env
-OPENAQ_API_KEY=your_key_here   # Free key from openaq.org
-REDIS_HOST=127.0.0.1           # Optional — app works without Redis
-REDIS_PORT=6379
-```
-
-## API Endpoints
-
-| Endpoint | Description |
-|---|---|
-| `GET /api/aqi?lat=&lon=` | Current AQI + pollutant breakdown |
-| `GET /api/trends?lat=&lon=&window=h24\|d7\|d30` | Historical trend analysis |
-| `GET /api/stations?lat=&lon=` | Nearby monitoring stations |
-| `GET /api/stations/search?city=` | Search stations by city |
-| `POST /api/alerts/register` | Register push alert preferences |
-| `GET /api/alerts/check?lat=&lon=&threshold=` | Check if AQI exceeds threshold |
-| `GET /health` | Health check |
-
-## Data Sources
-
-- **[Open-Meteo](https://open-meteo.com/en/docs/air-quality-api)** — Hourly PM2.5, PM10, NO₂, O₃, CO. Free, no key required.
-- **[OpenAQ](https://openaq.org)** — Monitoring station locations and verified sensor readings. Free API key required.
+- [Open-Meteo](https://open-meteo.com/en/docs/air-quality-api) — hourly PM2.5, PM10, NO2, O3, CO. Free, no key required.
+- [WAQI](https://aqicn.org/api/) — verified monitoring station readings. Free API key required.
